@@ -6,25 +6,23 @@ export default function Home() {
 	const [data, setData] = useState<any>();
 
 	async function getData() {
-		setData((await supabase.from('user').select('*')).data)
+		setData((await supabase.from('message').select('*')).data)
 	}
 
 	useEffect(() => {
 		getData();
 	}, [])
 
-	useEffect(() => {
-		if (data) {
-			console.log(data);
-		}
-	}, [data])
-
 	return (
 		<section className={styles['page']}>
-			<div className={styles['card']}>
-				<h1>Nome da pessoa</h1>
-				<p>Mensagem</p>
-			</div>
+			{data?.map((message: any, index: number) => {
+				return <>
+					<div key={index} className={styles['card']}>
+						<h1>{message.user}</h1>
+						<p>{message.message}</p>
+					</div>
+				</>
+			})}
 		</section>
 	);
 }
