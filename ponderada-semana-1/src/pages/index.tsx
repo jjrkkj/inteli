@@ -16,8 +16,10 @@ export default function Home() {
 		getData();
 	}, [])
 
-	function add() {
+	async function add() {
 		if (name && message) {
+			await supabase.from('message').insert({ user: name, message: message })
+			getData();
 			setModalVisibility(false);
 			setName(undefined);
 			setMessage(undefined);
